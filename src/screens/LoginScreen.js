@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { TouchableOpacity, StyleSheet, View,Alert } from 'react-native'
+import { TouchableOpacity, StyleSheet, View, Alert } from 'react-native'
 import { Text } from 'react-native-paper'
 import Background from '../components/Background'
 import Logo from '../components/Logo'
@@ -11,7 +11,7 @@ import { theme } from '../core/theme'
 import { emailValidator } from '../helpers/emailValidator'
 import { passwordValidator } from '../helpers/passwordValidator'
 import axios from 'axios'
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState({ value: '', error: '' })
@@ -25,38 +25,33 @@ export default function LoginScreen({ navigation }) {
       setPassword({ ...password, error: passwordError })
       return
     }
-   
+
     let data = {
-      password : password.value,
-      email : email.value,
+      password: password.value,
+      email: email.value,
     }
 
-    axios.post("https://mini-back-12.herokuapp.com/api/user/login",data).then((res)=>{
-
-
-      storeData("@token",res.data.token).then(()=>{
-  
-        navigation.reset({
-          index: 0,
-          routes: [{ name: 'Dashboard' }],
-        }) 
+    axios
+      .post('https://minipoi-back.herokuapp.com/api/user/login', data)
+      .then((res) => {
+        storeData('@token', res.data.token).then(() => {
+          navigation.reset({
+            index: 0,
+            routes: [{ name: 'Dashboard' }],
+          })
+        })
       })
-  
-      }).catch((err)=>{
-        console.log(err,"wwwwwwwwwwww")
-        Alert.alert(
-          "Error",
-          "Invalid password or email",
-        );
+      .catch((err) => {
+        console.log(err, 'wwwwwwwwwwww')
+        Alert.alert('Error', 'Invalid password or email')
       })
   }
 
-
-  const storeData = async (key,value) => {
+  const storeData = async (key, value) => {
     try {
       await AsyncStorage.setItem(key, value)
     } catch (e) {
-      console.log(e,"  register storage error")
+      console.log(e, '  register storage error')
       // saving error
     }
   }

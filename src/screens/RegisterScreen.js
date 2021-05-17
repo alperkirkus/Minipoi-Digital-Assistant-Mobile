@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, StyleSheet, TouchableOpacity ,Alert} from 'react-native'
+import { View, StyleSheet, TouchableOpacity, Alert } from 'react-native'
 import { Text } from 'react-native-paper'
 import Background from '../components/Background'
 import Logo from '../components/Logo'
@@ -14,7 +14,7 @@ import { nameValidator } from '../helpers/nameValidator'
 import { usernameValidator } from '../helpers/usernameValidator'
 
 import axios from 'axios'
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export default function RegisterScreen({ navigation }) {
   const [name, setName] = useState({ value: '', error: '' })
@@ -23,7 +23,6 @@ export default function RegisterScreen({ navigation }) {
   const [username, setUsername] = useState({ value: '', error: '' })
 
   const onSignUpPressed = () => {
-
     const nameError = nameValidator(name.value)
     const emailError = emailValidator(email.value)
     const passwordError = passwordValidator(password.value)
@@ -39,41 +38,31 @@ export default function RegisterScreen({ navigation }) {
 
     let data = {
       fullName: name.value,
-      password : password.value,
-      email : email.value,
-      username : username.value
+      password: password.value,
+      email: email.value,
+      username: username.value,
     }
 
-
-    axios.post("https://mini-back-12.herokuapp.com/api/user/register",data).then((res)=>{
-
-
-    storeData("@token",res.data.token).then(()=>{
-
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'Dashboard' }],
-      }) 
-    })
-
-
-    }).catch((err)=>{
-
-      Alert.alert(
-        "Error",
-        "This Email already use another client",
-      );
-    })
-
-
+    axios
+      .post('https://minipoi-back.herokuapp.com/api/user/register', data)
+      .then((res) => {
+        storeData('@token', res.data.token).then(() => {
+          navigation.reset({
+            index: 0,
+            routes: [{ name: 'Dashboard' }],
+          })
+        })
+      })
+      .catch((err) => {
+        Alert.alert('Error', 'This Email already use another client')
+      })
   }
 
-
-  const storeData = async (key,value) => {
+  const storeData = async (key, value) => {
     try {
       await AsyncStorage.setItem(key, value)
     } catch (e) {
-      console.log(e,"  register storage error")
+      console.log(e, '  register storage error')
       // saving error
     }
   }
