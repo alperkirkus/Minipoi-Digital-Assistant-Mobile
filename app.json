@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Simple Login Template",
-    "slug": "simple-login-template",
+    "name": "Minipoi first publish",
+    "slug": "Minipoi first publish",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -13,9 +13,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
@@ -27,6 +25,8 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": "sa",
+    "githubUrl": "https://github.com/alperkirkus/Minipoi-Digital-Assistant-Mobile.git"
   }
 }

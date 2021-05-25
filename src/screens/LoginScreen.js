@@ -32,7 +32,7 @@ export default function LoginScreen({ navigation }) {
     }
 
     axios
-      .post('https://minipoi-back.herokuapp.com/api/user/login', data)
+      .post('https://mini-back-12.herokuapp.com/api/user/login', data)
       .then((res) => {
         storeData('@token', res.data.token).then(() => {
           navigation.reset({

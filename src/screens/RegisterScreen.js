@@ -44,7 +44,7 @@ export default function RegisterScreen({ navigation }) {
     }
 
     axios
-      .post('https://minipoi-back.herokuapp.com/api/user/register', data)
+      .post('https://mini-back-12.herokuapp.com/api/user/register', data)
       .then((res) => {
         storeData('@token', res.data.token).then(() => {
           navigation.reset({

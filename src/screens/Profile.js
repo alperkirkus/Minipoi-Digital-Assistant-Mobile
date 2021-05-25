@@ -29,7 +29,7 @@ export default function Profile({ navigation }) {
       }
 
       axios
-        .get('https://minipoi-back.herokuapp.com/api/user/me', config)
+        .get('https://mini-back-12.herokuapp.com/api/user/me', config)
         .then(({ data }) => {
           setUser(data.user)
         })
@@ -54,7 +54,7 @@ export default function Profile({ navigation }) {
       }
       axios
         .put(
-          'https://minipoi-back.herokuapp.com/api/user/change-password',
+          'https://mini-back-12.herokuapp.com/api/user/change-password',
           {
             oldPass: oldPass.value,
             newPass: newPass.value,

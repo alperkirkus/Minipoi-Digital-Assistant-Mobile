@@ -27,7 +27,7 @@ export default function Blog({ navigation }) {
   const [loading, setLoading] = useState(true)
   useEffect(() => {
     axios
-      .get('https://minipoi-back.herokuapp.com/api/blog')
+      .get('https://mini-back-12.herokuapp.com/api/blog')
       .then(({ data }) => {
         setData(data.blogs)
         setLoading(false)
