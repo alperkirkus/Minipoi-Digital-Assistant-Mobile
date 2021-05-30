@@ -14,7 +14,9 @@ import {
 } from 'react-native'
 import Button from '../components/Button'
 
-export default function BookEx({ navigation }) {
+export default function BookEx({ route, navigation }) {
+  const { bookId } = route.params
+  console.log(bookId, 'asjkdgkhaskghfdgkasgdas')
   const renderItem = ({ item }) => {
     return (
       <View style={styles.container}>

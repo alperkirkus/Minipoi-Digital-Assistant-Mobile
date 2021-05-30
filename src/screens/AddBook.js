@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Background from '../components/Background'
 import Logo from '../components/Logo'
 import Header from '../components/Header'
@@ -9,6 +9,8 @@ import TextInput from '../components/TextInput'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from 'axios'
 
+import { BarCodeScanner } from 'expo-barcode-scanner'
+
 import { StyleSheet, Modal, View, Pressable, Text } from 'react-native'
 export default function AddBook({ navigation }) {
   const [showModal, setShowmodal] = useState(false)
@@ -16,7 +18,7 @@ export default function AddBook({ navigation }) {
   const [user, setUser] = useState(null)
   const [code, setCode] = useState({ value: '', error: '' })
 
-  const [msg, setMsg] = useState(null)
+  const [msg, setMsg] = useState('')
 
   const saveCode = () => {
     getInfo().then(() => {
@@ -32,8 +34,6 @@ export default function AddBook({ navigation }) {
           } else {
             setMsg('Bu kod daha önce kullanılmıştır.')
           }
-
-          setShowmodal(!showModal)
           setCode({ value: '', error: '' })
         })
     })
@@ -53,11 +53,17 @@ export default function AddBook({ navigation }) {
         })
     }
   }
+
+  const cancelModal = () => {
+    setShowmodal(false)
+    setMsg('')
+  }
   return (
     <Background navigation={navigation}>
       <BackButton goBack={navigation.goBack} />
       <Logo />
       <Header>Add Book page</Header>
+
       <Icon name="qrcode" type="font-awesome" size={100} color="#000" />
 
       <Button
@@ -65,7 +71,7 @@ export default function AddBook({ navigation }) {
         labelStyle={{ color: 'white' }}
         color="#33C7FF"
         mode="contained"
-        onPress={() => console.log('qr-code processing....')}
+        onPress={() => navigation.navigate('QR')}
       >
         Scan QR Code
       </Button>
@@ -100,29 +106,35 @@ export default function AddBook({ navigation }) {
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             {/*
-             <TextInput
-              label="Code"
-              returnKeyType="done"
-              value={code.value}
-              onChangeText={(text) => setCode({ value: text, error: '' })}
-              error={!!code.error}
-              errorText={code.error}
-              autoCapitalize="none"
-            />
-            <View style={styles.buttonContainer}>
-              <Pressable
-                onPress={saveCode}
-              >
-                <Text style={styles.textStyle}>Save</Text>
-              </Pressable>
-              <Pressable
-                onPress={() => setShowmodal(!showModal)}
-              >
-                <Text style={styles.textStyle}>Cancel</Text>
-              </Pressable>
-            </View>
-              */}
-            {msg && <Text style={styles.textStyle}>{msg}</Text>}
+ 
+ 
+              <TextInput
+               label="Code"
+               returnKeyType="done"
+               value={code.value}
+               onChangeText={(text) => setCode({ value: text, error: '' })}
+               error={!!code.error}
+               errorText={code.error}
+               autoCapitalize="none"
+             />
+             <View style={styles.buttonContainer}>
+ 
+               <Pressable
+                 onPress={saveCode}
+               >
+                 <Text style={styles.textStyle}>Save</Text>
+               </Pressable>
+ 
+               <Pressable
+                 onPress={() => setShowmodal(!showModal)}
+               >
+                 <Text style={styles.textStyle}>Cancel</Text>
+               </Pressable>
+             </View>
+ 
+               */}
+
+            <Text style={styles.msgText}>{msg}</Text>
 
             <TextInput
               label="Code"
@@ -134,11 +146,17 @@ export default function AddBook({ navigation }) {
               autoCapitalize="none"
             />
 
-            <Pressable onPress={saveCode}>
+            <Pressable
+              style={[styles.btn, styles.buttonSave]}
+              onPress={saveCode}
+            >
               <Text style={styles.textStyle}>Save</Text>
             </Pressable>
 
-            <Pressable onPress={() => setShowmodal(!showModal)}>
+            <Pressable
+              style={[styles.btn, styles.buttonClose]}
+              onPress={cancelModal}
+            >
               <Text style={styles.textStyle}>Cancel</Text>
             </Pressable>
           </View>
@@ -184,8 +202,28 @@ const styles = StyleSheet.create({
   icon: {
     marginTop: 10,
   },
-  buttonContainer: {
-    flex: 1,
-    justifyContent: 'center',
+
+  btn: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+    color: '#fff',
+  },
+  buttonSave: {
+    backgroundColor: '#581845',
+  },
+  buttonClose: {
+    backgroundColor: '#900c3f',
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+
+  msgText: {
+    color: 'black',
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
 })
