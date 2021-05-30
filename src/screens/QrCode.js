@@ -41,17 +41,14 @@ export default function QrCode({ navigation }) {
       }
 
       axios
-        .get('https://minipoi-back.herokuapp.com/api/user/me', config)
+        .get('https://mini-back-12.herokuapp.com/api/user/me', config)
         .then(({ data }) => {
           let postData = {
             code: code,
             userId: data.user.id,
           }
           axios
-            .post(
-              'https://minipoi-back.herokuapp.com/api/code/add-book',
-              postData
-            )
+            .post('https://mini-back-12.herokuapp.com/api/user/me', postData)
             .then(({ data }) => {
               if (data.msg === 'success') {
                 Alert.alert('Success', 'Book has been added', [
