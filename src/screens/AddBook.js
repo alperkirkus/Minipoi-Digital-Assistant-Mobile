@@ -47,7 +47,7 @@ export default function AddBook({ navigation }) {
       }
 
       await axios
-        .get('https://mini-back-12.herokuapp.com/api/user/me', config)
+        .get('https://minipoi-back.herokuapp.com/api/user/me', config)
         .then(({ data }) => {
           setUser(data.user)
         })
