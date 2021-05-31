@@ -35,7 +35,7 @@ export default function BookEx({ route, navigation }) {
   const DATA = [
     {
       id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-      title: 'Bu bir denemedir',
+      title: 'DİL GELİŞİMİ',
     },
     {
       id: 'asd-c1b1-46c2-aed5-3ad53abb28ba',
