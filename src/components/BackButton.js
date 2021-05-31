@@ -12,7 +12,6 @@ export default function BackButton({ goBack }) {
     </TouchableOpacity>
   )
 }
-const x = 0
 
 const styles = StyleSheet.create({
   container: {

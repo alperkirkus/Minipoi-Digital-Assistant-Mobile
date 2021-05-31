@@ -27,7 +27,7 @@ export default function AddBook({ navigation }) {
         userId: user.id,
       }
       axios
-        .post('https://mini-back-12.herokuapp.com/api/code/add-book', postData)
+        .post('https://minipoi-back.herokuapp.com/api/code/add-book', postData)
         .then(({ data }) => {
           if (data.msg === 'success') {
             setMsg('Kitabınız aktif edilmiştir')
