@@ -35,15 +35,47 @@ export default function BookEx({ route, navigation }) {
   const DATA = [
     {
       id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-      title: '1. Etkinlik',
+      title: '1. ETKİNLİK',
     },
     {
       id: 'asd-c1b1-46c2-aed5-3ad53abb28ba',
-      title: 'BÜTÜNSEL & GÖRSEL ALGI',
+      title: '2. ETKİNLİK',
     },
     {
       id: 'bd7acbasdasdea-c1b1-46c2-aed5-3ad53abb28ba',
-      title: 'UZUN SÜRELİ DİKKAT ',
+      title: '3. ETKİNLİK',
+    },
+    {
+      id: 'd7acbasdasdea-c1b1-46c2-aed5-3ad53abb28ba',
+      title: '4. ETKİNLİK',
+    },
+    {
+      id: '7acbasdasdea-c1b1-46c2-aed5-3ad53abb28ba',
+      title: '5. ETKİNLİK',
+    },
+    {
+      id: 'acbasdasdea-c1b1-46c2-aed5-3ad53abb28ba',
+      title: '6. ETKİNLİK',
+    },
+    {
+      id: 'cbasdasdea-c1b1-46c2-aed5-3ad53abb28ba',
+      title: '7. ETKİNLİK',
+    },
+    {
+      id: 'basdasdea-c1b1-46c2-aed5-3ad53abb28ba',
+      title: '8. ETKİNLİK',
+    },
+    {
+      id: 'asdasdea-c1b1-46c2-aed5-3ad53abb28ba',
+      title: '9. ETKİNLİK',
+    },
+    {
+      id: 'sdasdea-c1b1-46c2-aed5-3ad53abb28ba',
+      title: '10. ETKİNLİK',
+    },
+    {
+      id: 'dasdea-c1b1-46c2-aed5-3ad53abb28ba',
+      title: '11. ETKİNLİK',
     },
   ]
   return (
