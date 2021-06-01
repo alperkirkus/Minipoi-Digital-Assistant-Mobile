@@ -17,7 +17,7 @@ export default function Exercise({ navigation }) {
   return (
     <Background navigation={navigation}>
       <BackButton goBack={navigation.goBack} />
-      <Header>1. Etkinlik</Header>
+      <Header>ETKİNLİĞİN DOĞRU CEVABI</Header>
 
       <Image style={styles.img} source={require('../assets/exercise.png')} />
       <Text style={styles.title}>Kazanım</Text>
