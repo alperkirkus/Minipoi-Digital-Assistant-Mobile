@@ -63,14 +63,18 @@ export default function QrCode({ navigation }) {
                   },
                 ])
               } else {
-                Alert.alert('Warning', 'Code has already taken', [
-                  {
-                    text: 'OK',
-                    onPress: () => {
-                      navigation.goBack()
+                Alert.alert(
+                  'Warning',
+                  'Code has already taken or wrong QR code',
+                  [
+                    {
+                      text: 'OK',
+                      onPress: () => {
+                        navigation.goBack()
+                      },
                     },
-                  },
-                ])
+                  ]
+                )
               }
             })
         })
