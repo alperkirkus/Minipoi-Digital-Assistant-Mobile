@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Background from '../components/Background'
 import Header from '../components/Header'
 import BackButton from '../components/BackButton'
@@ -13,17 +13,41 @@ import {
   StatusBar,
 } from 'react-native'
 import Button from '../components/Button'
+import axios from 'axios'
 
 export default function BookEx({ route, navigation }) {
   const { bookId } = route.params
-  console.log(bookId, 'asjkdgkhaskghfdgkasgdas')
+
+  const [data, setData] = useState([])
+  const [bookExTitle, setBookExTitle] = useState('')
+
+  useEffect(() => {
+    if (bookId) getEx()
+  }, [bookId])
+
+  const getEx = async () => {
+    axios
+      .get('https://minipoi-back.herokuapp.com/api/book-ex/' + bookId)
+      .then(({ data }) => {
+        setData(data.bookex) // get book ex
+
+        if (data.bookex.length > 0) {
+          // get book name
+
+          setBookExTitle(data.bookex[0].books.bookName)
+        }
+      })
+  }
+
   const renderItem = ({ item }) => {
     return (
       <View style={styles.container}>
-        <TouchableOpacity onPress={() => navigation.navigate('Exercise')}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Exercise', { exercise: item })}
+        >
           <View style={styles.bookContainer}>
             <Icon name="bookmark" type="font-awesome" color="#000" />
-            <Text style={styles.title}>{item.title}</Text>
+            <Text style={styles.title}>{item.name}</Text>
           </View>
 
           <View style={styles.sep}></View>
@@ -32,63 +56,17 @@ export default function BookEx({ route, navigation }) {
     )
   }
 
-  const DATA = [
-    {
-      id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-      title: '1. ETKİNLİK',
-    },
-    {
-      id: 'asd-c1b1-46c2-aed5-3ad53abb28ba',
-      title: '2. ETKİNLİK',
-    },
-    {
-      id: 'bd7acbasdasdea-c1b1-46c2-aed5-3ad53abb28ba',
-      title: '3. ETKİNLİK',
-    },
-    {
-      id: 'd7acbasdasdea-c1b1-46c2-aed5-3ad53abb28ba',
-      title: '4. ETKİNLİK',
-    },
-    {
-      id: '7acbasdasdea-c1b1-46c2-aed5-3ad53abb28ba',
-      title: '5. ETKİNLİK',
-    },
-    {
-      id: 'acbasdasdea-c1b1-46c2-aed5-3ad53abb28ba',
-      title: '6. ETKİNLİK',
-    },
-    {
-      id: 'cbasdasdea-c1b1-46c2-aed5-3ad53abb28ba',
-      title: '7. ETKİNLİK',
-    },
-    {
-      id: 'basdasdea-c1b1-46c2-aed5-3ad53abb28ba',
-      title: '8. ETKİNLİK',
-    },
-    {
-      id: 'asdasdea-c1b1-46c2-aed5-3ad53abb28ba',
-      title: '9. ETKİNLİK',
-    },
-    {
-      id: 'sdasdea-c1b1-46c2-aed5-3ad53abb28ba',
-      title: '10. ETKİNLİK',
-    },
-    {
-      id: 'dasdea-c1b1-46c2-aed5-3ad53abb28ba',
-      title: '11. ETKİNLİK',
-    },
-  ]
   return (
     <Background navigation={navigation}>
       <BackButton goBack={navigation.goBack} />
-      <Header>MİNİPOİ 2-3 YAŞ KİTABI</Header>
+      <Header>{bookExTitle}</Header>
       <Text style={styles.title}>Book Exercises</Text>
       <View style={styles.line}></View>
       <SafeAreaView style={styles.container}>
         <FlatList
-          data={DATA}
+          data={data}
           renderItem={renderItem}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item.id + '-book-ex'}
           directionalLockEnabled
         />
       </SafeAreaView>
