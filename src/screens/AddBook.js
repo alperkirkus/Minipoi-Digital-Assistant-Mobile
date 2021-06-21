@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState,useEffect } from 'react'
 import Background from '../components/Background'
 import Logo from '../components/Logo'
 import Header from '../components/Header'
@@ -6,55 +6,63 @@ import BackButton from '../components/BackButton'
 import Button from '../components/Button'
 import { Icon } from 'react-native-elements'
 import TextInput from '../components/TextInput'
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios'
 
-import { BarCodeScanner } from 'expo-barcode-scanner'
+import { BarCodeScanner } from 'expo-barcode-scanner';
 
 import { StyleSheet, Modal, View, Pressable, Text } from 'react-native'
 export default function AddBook({ navigation }) {
   const [showModal, setShowmodal] = useState(false)
 
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState(null);
   const [code, setCode] = useState({ value: '', error: '' })
 
-  const [msg, setMsg] = useState('')
+  const [msg, setMsg] = useState("")
+
+
+
+
 
   const saveCode = () => {
     getInfo().then(() => {
       let postData = {
         code: code.value,
-        userId: user.id,
+        userId: user.id
       }
-      axios
-        .post('https://minipoi-back.herokuapp.com/api/code/add-book', postData)
-        .then(({ data }) => {
-          if (data.msg === 'success') {
-            setMsg('Kitabınız aktif edilmiştir')
-          } else {
-            setMsg('Bu kod daha önce kullanılmıştır.')
-          }
-          setCode({ value: '', error: '' })
-        })
+      axios.post("https://mini-back-12.herokuapp.com/api/code/add-book", postData).then(({ data }) => {
+
+        if (data.msg === "success") {
+          setMsg("Kitabınız aktif edilmiştir")
+        }
+        else {
+          setMsg("Bu kod daha önce kullanılmıştır.")
+        }
+        setCode({ value: '', error: '' })
+      })
+
     })
+
   }
 
   const getInfo = async () => {
-    const token = await AsyncStorage.getItem('@token')
+    const token = await AsyncStorage.getItem("@token")
     if (token !== null) {
-      const config = {
-        headers: { Authorization: `Bearer ${token}` },
-      }
 
-      await axios
-        .get('https://minipoi-back.herokuapp.com/api/user/me', config)
-        .then(({ data }) => {
-          setUser(data.user)
-        })
+      const config = {
+        headers: { Authorization: `Bearer ${token}` }
+      };
+
+      await axios.get("https://mini-back-12.herokuapp.com/api/user/me", config).then(({ data }) => {
+
+        setUser(data.user)
+      })
     }
+
   }
 
-  const cancelModal = () => {
+  const cancelModal = ()=>{
+
     setShowmodal(false)
     setMsg('')
   }
@@ -64,22 +72,30 @@ export default function AddBook({ navigation }) {
       <Logo />
       <Header>Add Book page</Header>
 
-      <Icon name="qrcode" type="font-awesome" size={100} color="#000" />
+
+      <Icon
+        name='qrcode'
+        type='font-awesome'
+        size={100}
+        color='#000'
+      />
 
       <Button
         style={styles.button}
         labelStyle={{ color: 'white' }}
         color="#33C7FF"
         mode="contained"
-        onPress={() => navigation.navigate('QR')}
+        onPress={() =>
+         navigation.navigate('QR')
+        }
       >
         Scan QR Code
-      </Button>
+        </Button>
 
       <Icon
-        name="edit"
-        type="font-awesome"
-        color="#000"
+        name='edit'
+        type='font-awesome'
+        color='#000'
         size={100}
         style={styles.icon}
       />
@@ -92,7 +108,9 @@ export default function AddBook({ navigation }) {
         onPress={() => setShowmodal(!showModal)}
       >
         Enter the Code
-      </Button>
+        </Button>
+
+
 
       {/* Activate modal*/}
       <Modal
@@ -100,12 +118,15 @@ export default function AddBook({ navigation }) {
         transparent={true}
         visible={showModal}
         onRequestClose={() => {
-          setShowmodal(!showModal)
+          setShowmodal(!showModal);
         }}
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            {/*
+
+
+            {
+              /*
  
  
               <TextInput
@@ -132,9 +153,10 @@ export default function AddBook({ navigation }) {
                </Pressable>
              </View>
  
-               */}
+               */
+            }
 
-            <Text style={styles.msgText}>{msg}</Text>
+              <Text style={styles.msgText}>{msg}</Text>
 
             <TextInput
               label="Code"
@@ -146,12 +168,17 @@ export default function AddBook({ navigation }) {
               autoCapitalize="none"
             />
 
-            <Pressable
+
+
+              <Pressable
               style={[styles.btn, styles.buttonSave]}
               onPress={saveCode}
+              
             >
               <Text style={styles.textStyle}>Save</Text>
             </Pressable>
+
+
 
             <Pressable
               style={[styles.btn, styles.buttonClose]}
@@ -159,35 +186,39 @@ export default function AddBook({ navigation }) {
             >
               <Text style={styles.textStyle}>Cancel</Text>
             </Pressable>
+
           </View>
         </View>
       </Modal>
+
     </Background>
   )
 }
 
+
 const styles = StyleSheet.create({
   centeredView: {
+
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22
   },
   modalView: {
     margin: 20,
-    width: '90%',
-    backgroundColor: 'white',
+    width: "90%",
+    backgroundColor: "white",
     borderRadius: 20,
     padding: 35,
-    alignItems: 'center',
-    shadowColor: '#000',
+    alignItems: "center",
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 2
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    elevation: 5,
+    elevation: 5
   },
   button: {
     paddingHorizontal: 8,
@@ -207,23 +238,26 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 10,
     elevation: 2,
-    color: '#fff',
+    color:"#fff",
   },
   buttonSave: {
-    backgroundColor: '#581845',
+    backgroundColor: "#581845",
   },
   buttonClose: {
-    backgroundColor: '#900c3f',
+    backgroundColor: "#900c3f",
   },
   textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center"
   },
 
-  msgText: {
-    color: 'black',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
+  msgText:{
+    color: "black",
+    fontWeight: "bold",
+    textAlign: "center"
+  }
+
+
+
 })
