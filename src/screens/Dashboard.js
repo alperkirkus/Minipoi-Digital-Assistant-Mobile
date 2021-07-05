@@ -54,7 +54,7 @@ export default function Dashboard({ navigation }) {
           labelStyle={{ color: 'white' }}
           mode="contained"
           color="#C70039"
-          onPress={() => navigation.navigate('MyBooks')}
+          onPress={() => navigation.navigate('MyBooks',{refresh:false})}
 
         >
           My Books

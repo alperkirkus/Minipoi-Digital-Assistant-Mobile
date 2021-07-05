@@ -15,7 +15,7 @@ const imgRootUrl = "https://mini-back-12.herokuapp.com/"
 export default function Exercise({ route, navigation }) {
 
 
-  const { exercise } = route.params;
+  const { exercise,bookId } = route.params;
 
   const [info, setInfo] = useState(null)
   const [userId,setUserId]  =useState(null)
@@ -36,7 +36,7 @@ export default function Exercise({ route, navigation }) {
     const token = await AsyncStorage.getItem("@token")
     if(token !== null)
     {
-
+      
       const config = {
         headers: { Authorization: `Bearer ${token}` }
       };
@@ -62,7 +62,7 @@ export default function Exercise({ route, navigation }) {
           "Your answer is correct.You can check progress chart.",
         );
 
-        navigation.navigate('MyBooks')
+        navigation.navigate('BookExercises',{refresh:Math.random(),bookId})
         
 
       }).catch((e)=>{
@@ -87,7 +87,7 @@ export default function Exercise({ route, navigation }) {
         "Info",
         "Please try to solve the exercise again.",
       );
-      navigation.navigate('MyBooks')
+      navigation.navigate('BookExercises',{refresh:Math.random(),bookId})
     }
 
   }

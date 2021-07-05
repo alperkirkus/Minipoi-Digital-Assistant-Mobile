@@ -35,6 +35,7 @@ export default function LoginScreen({ navigation }) {
     axios.post("https://mini-back-12.herokuapp.com/api/user/login",data).then((res)=>{
 
 
+
       storeData("@token",res.data.token).then(()=>{
   
         navigation.reset({
@@ -44,6 +45,7 @@ export default function LoginScreen({ navigation }) {
       })
   
       }).catch((err)=>{
+        console.log(err,"wwwwww")
     
         Alert.alert(
           "Error",

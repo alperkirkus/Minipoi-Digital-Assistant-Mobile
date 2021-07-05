@@ -16,7 +16,8 @@ import {
   BookEx,
   Chart,
   Exercise,
-  QrCode
+  QrCode,
+  ChangePassword
 
 } from './src/screens'
 import { ActivityIndicator,StyleSheet,View} from 'react-native'
@@ -88,6 +89,7 @@ setRouteUrl("Dashboard")
               <Stack.Screen name="Chart" component={Chart} />
               <Stack.Screen name="Exercise" component={Exercise} />
               <Stack.Screen name="QR" component={QrCode} />
+              <Stack.Screen name="ChangePass" component={ChangePassword} />
               <Stack.Screen
                 name="ResetPasswordScreen"
                 component={ResetPasswordScreen}

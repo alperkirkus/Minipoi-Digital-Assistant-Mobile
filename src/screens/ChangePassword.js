@@ -10,91 +10,15 @@ import { Text, View, StyleSheet ,Alert} from 'react-native'
 
 import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { ScrollView } from 'react-native-gesture-handler'
 
 
 
-export default function Profile({ navigation }) {
-
-  const [user,setUser]  =useState(null);
+export default function ChangePassword({ navigation }) {
   const [oldPass, setOldPass] = useState({ value: '', error: '' })
   const [newPass, setNewPass] = useState({ value: '', error: '' })
   const [reNewPass, setReNewPass] = useState({ value: '', error: '' })
 
 
-  
-
-  //report 
-  const [totalBookCount,setTotalBookCount] = useState(0)
-
-  const [totalUserBookCount,setTotalUserBookCount] = useState(0)
-
-  const [userAttData,setUserAttData] = useState([])
-  useEffect(() => {
-
-    getInfo()
-   
-  }, [])
-
-  const getTotalBookCount = async()=>{
-
-    axios.get("https://mini-back-12.herokuapp.com/api/report/total-book-count").then(({data})=>{
-
-      setTotalBookCount(data.count)
-    }).catch((err)=>{
-      console.log(err)
-    })
-
-  }
-
-  useEffect(() => {
-    if(user)
-    {
-      getTotalUserBookCount(user.id)
-      getTotalBookCount()
-      getUserAttProgress(user.id)
-    }
-  }, [user])
- 
-
-
-  const getTotalUserBookCount = async(id)=>{
-
-    axios.get("https://mini-back-12.herokuapp.com/api/report/total-user-book-count/" + id).then(({data})=>{
-
-      setTotalUserBookCount(data.count)
-    }).catch((err)=>{
-      console.log(err)
-    })
-
-  }
-
-  const getUserAttProgress = async(id) =>{
-
-    axios.get("https://mini-back-12.herokuapp.com/api/user-stat/" + id).then(({ data }) => {
-
-
-      setUserAttData(data.ex)
-
-    })
-  }
-  const getInfo =  async() =>{
-    const token = await AsyncStorage.getItem("@token")
-
-    if(token !== null)
-    {
-
-      const config = {
-        headers: { Authorization: `Bearer ${token}` }
-      };
-
-      axios.get("https://mini-back-12.herokuapp.com/api/user/me",config).then(({data})=>{
-  
-      setUser(data.user)
-      })
-    }
-   
-  }
   // change password process
   const changePassword = async () => {
 
@@ -164,29 +88,42 @@ export default function Profile({ navigation }) {
 
   return (
     <Background  navigation ={navigation}>
+
       <BackButton goBack={navigation.goBack} />
       <Logo />
-      <Header>Profile</Header>
-
-      <View>
-        <Text style={styles.text}>Username : {user?.username}</Text>
-        <Text style={styles.text}>E-mail : {user?.email}</Text>
-      </View>
+      <Header>Change Password</Header>
 
       <View style = {styles.line}></View>
-      <Header>Info</Header>
 
-      <View>
-        <Text style={styles.text}>Book Count : {totalUserBookCount} / {totalBookCount}</Text>
-        {
-          userAttData?.map((item,i)=>{
-            return(
-              <Text key={i + "index"} style={styles.att}>{item.attainmentName} : {item.attainmentAmount} puan</Text>
-            )
-          })
-        }
-        
-      </View>
+      <TextInput
+        label="Old Password"
+        returnKeyType="next"
+        value={oldPass.value}
+        onChangeText={(text) => setOldPass({ value: text, error: '' })}
+        error={!!oldPass.error}
+        errorText={oldPass.error}
+        autoCapitalize="none"
+      />
+
+      <TextInput
+        label="New Password"
+        returnKeyType="next"
+        value={newPass.value}
+        onChangeText={(text) => setNewPass({ value: text, error: '' })}
+        error={!!newPass.error}
+        errorText={newPass.error}
+        autoCapitalize="none"
+      />
+      <TextInput
+        label="Re New Password"
+        returnKeyType="next"
+        value={reNewPass.value}
+        onChangeText={(text) => setReNewPass({ value: text, error: '' })}
+        error={!!reNewPass.error}
+        errorText={reNewPass.error}
+        autoCapitalize="none"
+      />
+
 
       <Button
         style={styles.button}
@@ -194,10 +131,10 @@ export default function Profile({ navigation }) {
         color="#581845"
         mode="contained"
         onPress={() =>
-          navigation.navigate("ChangePass")
+          changePassword()
         }
       >
-        Change Password
+        Save
         </Button>
 
 

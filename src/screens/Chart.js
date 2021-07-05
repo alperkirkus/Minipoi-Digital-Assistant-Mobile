@@ -11,7 +11,71 @@ import { Text as TextSVG } from 'react-native-svg'
 
 
 
-export default function BookEx({ navigation }) {
+export default function BookEx({ navigation ,route}) {
+
+
+  const { exData } = route.params;
+
+
+  useEffect(() => {
+    if(exData)
+    {
+    
+      let temp = [
+      {
+        attainmentName:"PARÇA BÜTÜN İLİŞKİSİ",
+        attainmentAmount:0,
+
+      },
+      {
+        attainmentName:"BÜTÜNSEL & GÖRSEL ALGI",
+        attainmentAmount:0,
+
+      },
+      {
+        attainmentName:"UZUN SÜRELİ DİKKAT",
+        attainmentAmount:0,
+
+      },
+      {
+        attainmentName:"DİL BECERİSİ",
+        attainmentAmount:0,
+
+      },
+      {
+        attainmentName:"AYIRT ETME & ORGANİZASYON",
+        attainmentAmount:0,
+
+      },
+
+    
+    ]
+      exData.forEach(item=>{
+      
+        const index = temp.findIndex(el => el.attainmentName === item.exerciseAttainmentName)
+
+        //console.log(item)
+        if(index === -1)
+        {
+          temp.push({
+            attainmentName : item.exerciseAttainmentName,
+            attainmentAmount : parseFloat(item.contScore)
+          })
+        }
+        else{
+          temp[index].attainmentAmount  += parseFloat(item.contScore);
+        }
+
+      })
+
+      setChartData(temp)
+
+
+      
+    }
+  }, [exData])
+
+
   const [chartInfo, setChartInfo] = useState([])
   const [data, setData] = useState([])
   const [dataLabel, setdataLabel] = useState([])
@@ -35,10 +99,10 @@ export default function BookEx({ navigation }) {
 
         axios.get("https://mini-back-12.herokuapp.com/api/user-stat/" + id).then(({ data }) => {
 
+
           setChartInfo(data.ex)
 
-          setChartData(data.ex)
-
+          
         })
 
       })

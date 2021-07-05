@@ -10,7 +10,21 @@ import axios from 'axios'
 export default function MyBooks({route, navigation }) {
 
 
+
+  const { refresh } = route.params;
   
+  useEffect(() => {
+      if(refresh)
+      {
+        getInfo()
+      }
+  }, [refresh])
+
+  useEffect(() => {
+ 
+      getInfo()
+    
+}, [])
   const renderItem = ({ item }) => {
 
 
@@ -34,17 +48,9 @@ export default function MyBooks({route, navigation }) {
 
   const [data,setData]  =useState([])
 
-  useEffect(() => {
+ 
 
-   
-    getInfo()
-
-     
-
-
-  }, [route])
-
-
+  
 
   const getInfo =  async() =>{
     const token = await AsyncStorage.getItem("@token")
@@ -62,7 +68,7 @@ export default function MyBooks({route, navigation }) {
         axios.get("https://mini-back-12.herokuapp.com/api/book/" + id).then(async({data})=>{
 
 
-        for(let i = 0 ; i< data.ubook.length ; i++)
+        for(let i = 0 ; i< data?.ubook?.length ; i++)
         {
           
           await axios.post("https://mini-back-12.herokuapp.com/api/book-ex/all-ex-with-check/",{userId:id,bookId:  data.ubook[i].bookId}).then((response) => {
@@ -71,7 +77,7 @@ export default function MyBooks({route, navigation }) {
           const exs = response.data.bookex
 
           let correctCount = 0 ;
-          exs.forEach(element => {
+          exs?.forEach(element => {
             
             if(element.status===1)
             {
@@ -80,16 +86,12 @@ export default function MyBooks({route, navigation }) {
           });
 
         
-          data.ubook[i].percentage = (((correctCount / exs.length))*100).toFixed(2)
-
-           
+          data.ubook[i].percentage = (((correctCount / exs?.length))*100).toFixed(2)
 
           })
 
         }
 
-
-     
           setData(data.ubook)
          
         })

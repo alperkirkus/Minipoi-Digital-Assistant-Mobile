@@ -48,14 +48,20 @@ export default function RegisterScreen({ navigation }) {
     axios.post("https://mini-back-12.herokuapp.com/api/user/register",data).then((res)=>{
 
 
-    storeData("@token",res.data.token).then(()=>{
-
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'Dashboard' }],
-      }) 
-    })
-
+      Alert.alert(
+        "Success",
+        "Your account has been created",
+        [
+          { text: "OK", onPress: () => {
+            navigation.reset({
+              index: 0,
+              routes: [{ name: 'LoginScreen' }],
+            }) 
+        
+          } }
+        ]
+      );
+      
 
     }).catch((err)=>{
 
