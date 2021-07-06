@@ -114,7 +114,7 @@ export default function Profile({ navigation }) {
           setNewPass({ value: '', error: '' })
           setReNewPass({ value: '', error: '' })
           setOldPass({ value: '', error: '' })
-          Alert.alert('Success', 'Your password has been changed successfuly', [
+          Alert.alert('Başarılı', 'Şifreniz başarılı şekilde değiştirildi!', [
             {
               text: 'OK',
               onPress: () => {
@@ -127,7 +127,7 @@ export default function Profile({ navigation }) {
           ])
         })
         .catch((err) => {
-          Alert.alert('Error', 'Something went wrong')
+          Alert.alert('Error', 'Bir şeyler ters gitti!!')
         })
     }
   }
