@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, StyleSheet, TouchableOpacity ,Alert} from 'react-native'
+import { View, StyleSheet, TouchableOpacity, Alert } from 'react-native'
 import { Text } from 'react-native-paper'
 import Background from '../components/Background'
 import Logo from '../components/Logo'
@@ -14,7 +14,7 @@ import { nameValidator } from '../helpers/nameValidator'
 import { usernameValidator } from '../helpers/usernameValidator'
 
 import axios from 'axios'
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export default function RegisterScreen({ navigation }) {
   const [name, setName] = useState({ value: '', error: '' })
@@ -23,7 +23,6 @@ export default function RegisterScreen({ navigation }) {
   const [username, setUsername] = useState({ value: '', error: '' })
 
   const onSignUpPressed = () => {
-
     const nameError = nameValidator(name.value)
     const emailError = emailValidator(email.value)
     const passwordError = passwordValidator(password.value)
@@ -39,47 +38,39 @@ export default function RegisterScreen({ navigation }) {
 
     let data = {
       fullName: name.value,
-      password : password.value,
-      email : email.value,
-      username : username.value
+      password: password.value,
+      email: email.value,
+      username: username.value,
     }
 
-
-    axios.post("https://mini-back-12.herokuapp.com/api/user/register",data).then((res)=>{
-
-
-      Alert.alert(
-        "Success",
-        "Your account has been created",
-        [
-          { text: "OK", onPress: () => {
-            navigation.reset({
-              index: 0,
-              routes: [{ name: 'LoginScreen' }],
-            }) 
-        
-          } }
-        ]
-      );
-      
-
-    }).catch((err)=>{
-
-      Alert.alert(
-        "Error",
-        "This Email already use another client",
-      );
-    })
-
-
+    axios
+      .post('https://mini-back-12.herokuapp.com/api/user/register', data)
+      .then((res) => {
+        Alert.alert('Başarılı', 'Hesabınız yaratıldı', [
+          {
+            text: 'OK',
+            onPress: () => {
+              navigation.reset({
+                index: 0,
+                routes: [{ name: 'LoginScreen' }],
+              })
+            },
+          },
+        ])
+      })
+      .catch((err) => {
+        Alert.alert(
+          'Error',
+          'Bu mail adresi başka kullanıcı tarafından kullanılmakta'
+        )
+      })
   }
 
-
-  const storeData = async (key,value) => {
+  const storeData = async (key, value) => {
     try {
       await AsyncStorage.setItem(key, value)
     } catch (e) {
-      console.log(e,"  register storage error")
+      console.log(e, '  register storage error')
       // saving error
     }
   }
@@ -88,9 +79,9 @@ export default function RegisterScreen({ navigation }) {
     <Background>
       <BackButton goBack={navigation.goBack} />
       <Logo />
-      <Header>Create Account</Header>
+      <Header>Kayıt Ol</Header>
       <TextInput
-        label="Name"
+        label="İsim"
         returnKeyType="next"
         value={name.value}
         onChangeText={(text) => setName({ value: text, error: '' })}
@@ -111,7 +102,7 @@ export default function RegisterScreen({ navigation }) {
       />
 
       <TextInput
-        label="Username"
+        label="Kullanıcı adı"
         returnKeyType="next"
         value={username.value}
         onChangeText={(text) => setUsername({ value: text, error: '' })}
@@ -119,7 +110,7 @@ export default function RegisterScreen({ navigation }) {
         errorText={username.error}
       />
       <TextInput
-        label="Password"
+        label="Şifre"
         returnKeyType="done"
         value={password.value}
         onChangeText={(text) => setPassword({ value: text, error: '' })}
@@ -133,12 +124,12 @@ export default function RegisterScreen({ navigation }) {
         style={{ marginTop: 24 }}
         color="#dc143c" // red button
       >
-        Sign Up
+        Kayıt Ol
       </Button>
       <View style={styles.row}>
-        <Text>Already have an account? </Text>
+        <Text>Hesabınız var mı? </Text>
         <TouchableOpacity onPress={() => navigation.replace('LoginScreen')}>
-          <Text style={styles.link}>Login</Text>
+          <Text style={styles.link}>Giriş Yap</Text>
         </TouchableOpacity>
       </View>
     </Background>

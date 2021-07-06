@@ -9,10 +9,10 @@ import { View, StyleSheet } from 'react-native'
 
 export default function Dashboard({ navigation }) {
   return (
-    <Background navigation ={navigation}>
+    <Background navigation={navigation}>
       <Logo />
-      <Header>Home Page</Header>
-      <Paragraph>Welcome Minipoi</Paragraph>
+      <Header>Ana Sayfa</Header>
+      <Paragraph>Minipoi'ye Hoşgeldiniz</Paragraph>
 
       {/* <Button
         mode="outlined"
@@ -33,10 +33,8 @@ export default function Dashboard({ navigation }) {
           color="#581845"
           mode="contained"
           onPress={() => navigation.navigate('Profile')}
-
-
         >
-          Profile
+          Profil
         </Button>
         <Button
           style={styles.button}
@@ -44,9 +42,8 @@ export default function Dashboard({ navigation }) {
           color="#900c3f"
           mode="contained"
           onPress={() => navigation.navigate('AddBook')}
-
         >
-          Add New Book
+          Yeni Kitap Ekle
         </Button>
 
         <Button
@@ -54,10 +51,9 @@ export default function Dashboard({ navigation }) {
           labelStyle={{ color: 'white' }}
           mode="contained"
           color="#C70039"
-          onPress={() => navigation.navigate('MyBooks',{refresh:false})}
-
+          onPress={() => navigation.navigate('MyBooks', { refresh: false })}
         >
-          My Books
+          Kitaplarım
         </Button>
         <Button
           style={styles.button}
@@ -65,9 +61,8 @@ export default function Dashboard({ navigation }) {
           mode="contained"
           color="#FFC300"
           onPress={() => navigation.navigate('Blog')}
-
         >
-          Blog
+          Bilgilendirme Köşesi
         </Button>
       </View>
     </Background>

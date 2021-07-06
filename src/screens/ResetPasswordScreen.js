@@ -20,12 +20,12 @@ export default function ResetPasswordScreen({ navigation }) {
   }
 
   return (
-    <Background  navigation ={navigation}>
+    <Background navigation={navigation}>
       <BackButton goBack={navigation.goBack} />
       <Logo />
-      <Header>Restore Password</Header>
+      <Header>Şifreyi Sıfırla</Header>
       <TextInput
-        label="E-mail address"
+        label="e-mail"
         returnKeyType="done"
         value={email.value}
         onChangeText={(text) => setEmail({ value: text, error: '' })}
@@ -35,14 +35,14 @@ export default function ResetPasswordScreen({ navigation }) {
         autoCompleteType="email"
         textContentType="emailAddress"
         keyboardType="email-address"
-        description="You will receive email with password reset link."
+        description="Şifre sıfırlama linkinin olduğu bir mail alacaksınız."
       />
       <Button
         mode="contained"
         onPress={sendResetPasswordEmail}
         style={{ marginTop: 16 }}
       >
-        Send Instructions
+        Yönlendirmeleri gönder
       </Button>
     </Background>
   )

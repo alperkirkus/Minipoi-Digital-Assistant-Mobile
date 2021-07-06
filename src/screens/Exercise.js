@@ -2,112 +2,102 @@ import React, { useEffect, useState } from 'react'
 import Background from '../components/Background'
 import Header from '../components/Header'
 import BackButton from '../components/BackButton'
-import { View, Text, StyleSheet, Image, TouchableOpacity ,Alert} from 'react-native'
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  Alert,
+} from 'react-native'
 
 import { Icon } from 'react-native-elements'
 import axios from 'axios'
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
-const imgRootUrl = "https://mini-back-12.herokuapp.com/"
-
-
+const imgRootUrl = 'https://mini-back-12.herokuapp.com/'
 
 export default function Exercise({ route, navigation }) {
-
-
-  const { exercise,bookId } = route.params;
+  const { exercise, bookId } = route.params
 
   const [info, setInfo] = useState(null)
-  const [userId,setUserId]  =useState(null)
+  const [userId, setUserId] = useState(null)
   useEffect(() => {
     setInfo(exercise)
-
   }, [exercise])
 
   useEffect(() => {
-   
     getUserId()
-
-
   }, [])
 
-  const getUserId = async() =>{
-
-    const token = await AsyncStorage.getItem("@token")
-    if(token !== null)
-    {
-      
+  const getUserId = async () => {
+    const token = await AsyncStorage.getItem('@token')
+    if (token !== null) {
       const config = {
-        headers: { Authorization: `Bearer ${token}` }
-      };
+        headers: { Authorization: `Bearer ${token}` },
+      }
 
-       axios.get("https://mini-back-12.herokuapp.com/api/user/me",config).then((res)=>{
-
-        setUserId(res.data.user.id)
-      
-      })
+      axios
+        .get('https://mini-back-12.herokuapp.com/api/user/me', config)
+        .then((res) => {
+          setUserId(res.data.user.id)
+        })
     }
   }
 
-  const checkProcess = async ()=>{
+  const checkProcess = async () => {
+    if (info && userId) {
+      axios
+        .put('https://mini-back-12.herokuapp.com/api/user-stat/stat-update', {
+          amount: parseInt(info.contScore),
+          userId,
+          name: info.exerciseAttainmentName,
+        })
+        .then(async () => {
+          upsertUserAnswer(info.id, userId, true)
+          Alert.alert(
+            'Doğru Cevap',
+            'Cevabınız Doğru. Gelişim Grafiğini inceleyebilirsiniz.'
+          )
 
-    if(info && userId)
-    {
-      axios.put("https://mini-back-12.herokuapp.com/api/user-stat/stat-update",{amount : parseInt(info.contScore),userId ,name :info.exerciseAttainmentName }).then(async ()=>{
-  
-        
-         upsertUserAnswer(info.id,userId,true)
-        Alert.alert(
-          "Success",
-          "Your answer is correct.You can check progress chart.",
-        );
-
-        navigation.navigate('BookExercises',{refresh:Math.random(),bookId})
-        
-
-      }).catch((e)=>{
-        Alert.alert(
-          "Warning",
-          e.response.data,
-        );
-      })
-      
+          navigation.navigate('BookExercises', {
+            refresh: Math.random(),
+            bookId,
+          })
+        })
+        .catch((e) => {
+          Alert.alert('Warning', e.response.data)
+        })
     }
   }
 
-
-  //check excercise failure process 
-  const decideBackProcess = async () =>{
-
-    
-    if(info && userId){
-
-       upsertUserAnswer(info.id,userId,false)
-      Alert.alert(
-        "Info",
-        "Please try to solve the exercise again.",
-      );
-      navigation.navigate('BookExercises',{refresh:Math.random(),bookId})
+  //check excercise failure process
+  const decideBackProcess = async () => {
+    if (info && userId) {
+      upsertUserAnswer(info.id, userId, false)
+      Alert.alert('Info', 'Lütfen tekrardan etkinliği çözmeye çalışınız.')
+      navigation.navigate('BookExercises', { refresh: Math.random(), bookId })
     }
-
   }
 
-  const upsertUserAnswer = async (exerciseId,userId,status)=>
-  {
-    return axios.post("https://mini-back-12.herokuapp.com/api/answers/upsert",{exerciseId, userId,status})
+  const upsertUserAnswer = async (exerciseId, userId, status) => {
+    return axios.post('https://mini-back-12.herokuapp.com/api/answers/upsert', {
+      exerciseId,
+      userId,
+      status,
+    })
   }
 
   return (
     <Background navigation={navigation}>
       <BackButton goBack={navigation.goBack} />
-      {
-        info &&
+      {info && (
         <>
           <Header>{info.name}</Header>
 
           <Image
             style={styles.img}
-            source={{uri: imgRootUrl + info.exerciseImg}}
+            source={{ uri: imgRootUrl + info.exerciseImg }}
           />
           <Text style={styles.title}>Kazanım</Text>
           <View style={styles.line}></View>
@@ -118,40 +108,33 @@ export default function Exercise({ route, navigation }) {
             <Text style={styles.des}>{info.exerciseAttainmentDes}</Text>
           </View>
 
-       
-
-            {
-              info && info.status !== 1 &&
-              <>
-                 <Text style={styles.corTitle}>Is the answer correct ? </Text>
-                 <View style={styles.corContainer}>
+          {info && info.status !== 1 && (
+            <>
+              <Text style={styles.corTitle}>Cevap Doğru Mu? </Text>
+              <View style={styles.corContainer}>
                 <TouchableOpacity onPress={() => decideBackProcess()}>
                   <Icon
-                    name='times'
-                    type='font-awesome'
+                    name="times"
+                    type="font-awesome"
                     size={100}
-                    color='#E81010'
+                    color="#E81010"
                     style={styles.wrong}
                   />
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => checkProcess()}>
                   <Icon
-                    name='check'
-                    type='font-awesome'
+                    name="check"
+                    type="font-awesome"
                     size={100}
-                    color='#10E837'
+                    color="#10E837"
                   />
                 </TouchableOpacity>
-                </View>
-              </>
-             
-
-            }
-        
+              </View>
+            </>
+          )}
         </>
-      }
-
+      )}
     </Background>
   )
 }
@@ -161,9 +144,8 @@ const styles = StyleSheet.create({
     paddingTop: 50,
   },
   img: {
-  
-    width: '100%', 
-    height: 300
+    width: '100%',
+    height: 300,
   },
   title: {
     textAlign: 'left',
@@ -175,28 +157,26 @@ const styles = StyleSheet.create({
     height: 2,
     width: '100%',
     backgroundColor: 'black',
-
-  }
-  ,
+  },
   subTitle: {
     textAlign: 'left',
     fontSize: 20,
     color: 'red',
   },
   corTitle: {
-    fontSize: 17,
+    fontSize: 24,
     color: 'blue',
+    marginTop: 20,
   },
   corContainer: {
     display: 'flex',
     flexDirection: 'row',
     flex: 1,
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   wrong: {
     marginRight: 20,
     color: 'red',
-  }
-
-});
+  },
+})

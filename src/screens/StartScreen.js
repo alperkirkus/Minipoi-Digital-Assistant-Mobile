@@ -9,25 +9,21 @@ export default function StartScreen({ navigation }) {
   return (
     <Background>
       <Logo />
-      <Header>Welcome</Header>
-      <Paragraph>
-       If you have an account please log in.
-      </Paragraph>
+      <Header>Hoşgeldiniz</Header>
+      <Paragraph>Hesabınız varsa lütfen giriş yapın.</Paragraph>
       <Button
         mode="contained"
         onPress={() => navigation.navigate('LoginScreen')}
       >
-        Login
+        Giriş Yap
       </Button>
-      <Paragraph>
-        If you don't have an account click here for start the journey.
-      </Paragraph>
+      <Paragraph>Hesabınız yoksa hesap açmak için tıklayınız.</Paragraph>
       <Button
         mode="contained"
         onPress={() => navigation.navigate('RegisterScreen')}
-        color = "#dc143c"
+        color="#dc143c"
       >
-        Sign Up
+        Kayıt Ol
       </Button>
     </Background>
   )
